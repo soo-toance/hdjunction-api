@@ -1,4 +1,4 @@
-package api.hdjunction.hdjunctionapi;
+package api.hdjunction;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
