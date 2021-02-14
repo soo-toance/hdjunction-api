@@ -2,7 +2,6 @@ package api.hdjunction.service;
 
 import api.hdjunction.domain.Patient;
 import api.hdjunction.domain.Seqno;
-import api.hdjunction.persistence.HospitalRepository;
 import api.hdjunction.persistence.PatientRepository;
 import api.hdjunction.persistence.SeqnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +52,11 @@ public class PatientServiceImpl implements PatientService {
         patientRepo.save(patient);
     }
 
+    @Transactional
     public Patient deletePatient(Long id) {
         Patient exist = getPatient(id);
         if (exist == null) {
-            return null;
+            throw new NullPointerException("환자 정보가 존재하지 않습니다.");
         }
 
         patientRepo.deleteById(id);

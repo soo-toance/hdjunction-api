@@ -2,9 +2,9 @@ package api.hdjunction.controller;
 
 import api.hdjunction.domain.Hospital;
 import api.hdjunction.domain.Patient;
+import api.hdjunction.dto.PatientDeleteDto;
 import api.hdjunction.dto.PatientResponseDto;
 import api.hdjunction.dto.PatientSaveDto;
-import api.hdjunction.service.HospitalService;
 import api.hdjunction.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,11 +68,10 @@ public class PatientController {
 
     // 환자 정보 삭제
     @DeleteMapping("/{id}")
-    public Patient deletePatient(@ModelAttribute("hospital") Hospital hospital, @PathVariable Long id) {
-        if (hospital.getId() == null) {
-            return null;
-        }
+    public ResponseEntity deletePatient(@PathVariable Long id) {
+        Patient patient = patientService.deletePatient(id);
 
-        return patientService.deletePatient(id);
+        PatientResponseDto response = new PatientResponseDto(patient);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
