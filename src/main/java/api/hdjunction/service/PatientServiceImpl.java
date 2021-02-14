@@ -44,9 +44,10 @@ public class PatientServiceImpl implements PatientService {
         return patientRepo.findById(id).orElse(null);
     }
 
+    @Transactional
     public void updatePatient(Patient patient) {
         if (getPatient(patient.getId()) == null) {
-            return;
+            throw new NullPointerException("환자 정보가 존재하지 않습니다.");
         }
 
         patientRepo.save(patient);

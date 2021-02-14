@@ -2,7 +2,6 @@ package api.hdjunction.controller;
 
 import api.hdjunction.domain.Hospital;
 import api.hdjunction.domain.Patient;
-import api.hdjunction.dto.HospitalSaveDto;
 import api.hdjunction.dto.PatientResponseDto;
 import api.hdjunction.dto.PatientSaveDto;
 import api.hdjunction.service.HospitalService;
@@ -57,20 +56,14 @@ public class PatientController {
 
     // 환자 정보 수정
     @PutMapping("/{id}")
-    public Patient updatePatient(@ModelAttribute("hospital") Hospital hospital, @PathVariable Long id, @RequestBody Map<String, String> body) {
-        if (hospital.getId() == null) {
-            return null;
-        }
-
-        if (patientService.getPatient(id) == null) {
-            return null;
-        }
-
-        Patient patient = new Patient(body.get("name"), body.get("genderCode"), body.get("birthday"), body.get("cellphone"));
+    public ResponseEntity updatePatient(@PathVariable Long id, @RequestBody @Valid PatientSaveDto dto) {
+        Patient patient = dto.toEntity();
         patient.setId(id);
 
         patientService.updatePatient(patient);
-        return patient;
+
+        PatientResponseDto response = new PatientResponseDto(patient);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 환자 정보 삭제
