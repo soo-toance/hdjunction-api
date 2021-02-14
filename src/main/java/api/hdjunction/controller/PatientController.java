@@ -2,11 +2,18 @@ package api.hdjunction.controller;
 
 import api.hdjunction.domain.Hospital;
 import api.hdjunction.domain.Patient;
+import api.hdjunction.dto.HospitalSaveDto;
+import api.hdjunction.dto.PatientResponseDto;
+import api.hdjunction.dto.PatientSaveDto;
+import api.hdjunction.service.HospitalService;
 import api.hdjunction.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -24,26 +31,17 @@ public class PatientController {
 
     // 환자 목록 조회
     @GetMapping("")
-    public List<Patient> getPatientList(@ModelAttribute("hospital") Hospital hospital) {
-        if (hospital.getId() == null) {
-            return null;
-        }
-
+    public List<Patient> getPatientList() {
         List<Patient> patientList = patientService.getPatientList();
         return patientList;
     }
 
     // 환자 정보 추가
     @PostMapping("")
-    public Patient insertPatient(@ModelAttribute("hospital") Hospital hospital, @RequestBody Map<String, String> body) {
-        if (hospital.getId() == null) {
-            return null;
-        }
-
-        Patient patient = new Patient(body.get("name"), body.get("seq"), body.get("genderCode"), body.get("birthday"), body.get("cellphone"), hospital);
-        patientService.insertPatient(patient);
-
-        return patient;
+    public ResponseEntity insertPatient(@RequestBody @Valid PatientSaveDto dto) {
+        Patient patient = patientService.insertPatient(dto.toEntity());
+        PatientResponseDto response = new PatientResponseDto(patient);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 환자 정보 조회
@@ -68,7 +66,7 @@ public class PatientController {
             return null;
         }
 
-        Patient patient = new Patient(body.get("name"), body.get("seq"), body.get("genderCode"), body.get("birthday"), body.get("cellphone"), hospital);
+        Patient patient = new Patient(body.get("name"), body.get("genderCode"), body.get("birthday"), body.get("cellphone"));
         patient.setId(id);
 
         patientService.updatePatient(patient);
