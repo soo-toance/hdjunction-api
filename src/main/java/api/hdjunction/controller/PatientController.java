@@ -2,14 +2,12 @@ package api.hdjunction.controller;
 
 import api.hdjunction.domain.Hospital;
 import api.hdjunction.domain.Patient;
-import api.hdjunction.dto.PatientDeleteDto;
 import api.hdjunction.dto.PatientResponseDto;
 import api.hdjunction.dto.PatientSaveDto;
 import api.hdjunction.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,8 +28,10 @@ public class PatientController {
 
     // 환자 목록 조회
     @GetMapping("")
-    public List<Patient> getPatientList() {
-        List<Patient> patientList = patientService.getPatientList();
+    public List<Patient> getPatientList(@RequestParam(value="name", required=false) String name
+            ,@RequestParam(value="seq", required=false) String seq
+            ,@RequestParam(value="birthday", required=false) String birthday) {
+        List<Patient> patientList = patientService.getPatientList(name, seq, birthday);
         return patientList;
     }
 

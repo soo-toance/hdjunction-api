@@ -5,7 +5,7 @@ import api.hdjunction.domain.Patient;
 import java.util.List;
 
 public interface PatientService {
-    List<Patient> getPatientList();
+    List<Patient> getPatientList(String name, String seq, String birthday);
 
     Patient insertPatient(Patient patient);
 

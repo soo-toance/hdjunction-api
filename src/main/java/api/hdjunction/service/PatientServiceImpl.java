@@ -7,7 +7,15 @@ import api.hdjunction.persistence.SeqnoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +26,34 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     private SeqnoRepository seqnoRepo;
 
-    public List<Patient> getPatientList() {
-        return (List<Patient>) patientRepo.findAll();
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<Patient> getPatientList(String name, String seq, String birthday) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Patient> criteriaQuery = criteriaBuilder.createQuery(Patient.class);
+
+        Root<Patient> root = criteriaQuery.from(Patient.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+
+        if (name != null) {
+            predicates.add(criteriaBuilder.like(root.get("name"), "%" + name + "%"));
+        }
+
+        if (seq != null) {
+            predicates.add(criteriaBuilder.like(root.get("seq"), "%" + seq + "%"));
+        }
+
+        if (birthday != null) {
+            predicates.add(criteriaBuilder.like(root.get("birthday"), "%" + birthday + "%"));
+        }
+
+        criteriaQuery.orderBy(criteriaBuilder.desc(root.get("id")));
+        criteriaQuery.select(root).where(predicates.toArray(new Predicate[]{}));
+        TypedQuery<Patient> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Patient> patientList = typedQuery.getResultList();
+
+        return patientList;
     }
 
     @Transactional
