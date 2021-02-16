@@ -20,12 +20,6 @@ public class PatientController {
     @Autowired
     private PatientService patientService;
 
-    // TODO : Hospital 연동
-    @ModelAttribute("hospital")
-    public Hospital setHospital() {
-        return new Hospital((long)1, "name", "tel", "directorName");
-    }
-
     // 환자 목록 조회
     @GetMapping("")
     public List<Patient> getPatientList(

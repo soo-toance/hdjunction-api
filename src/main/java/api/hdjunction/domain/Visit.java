@@ -24,10 +24,53 @@ public class Visit {
     @JoinColumn(name="patientId")
     private Patient patient;
 
+    public Visit() {
+    }
+
     public Visit(Date reserveDate, String statusCode, Hospital hospital, Patient patient) {
         this.reserveDate = reserveDate;
         this.statusCode = statusCode;
         this.hospital = hospital;
+        this.patient = patient;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getReserveDate() {
+        return reserveDate;
+    }
+
+    public void setReserveDate(Date reserveDate) {
+        this.reserveDate = reserveDate;
+    }
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public Hospital getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
         this.patient = patient;
     }
 }

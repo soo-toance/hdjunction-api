@@ -21,9 +21,51 @@ public class Hospital {
     @Column(length=10)
     private String directorName;
 
+    public Hospital() {
+    }
+
     public Hospital(String name, String tel, String directorName) {
         this.name = name;
         this.tel = tel;
+        this.directorName = directorName;
+    }
+
+    public Hospital(Long id, String name, String tel, String directorName) {
+        this.id = id;
+        this.name = name;
+        this.tel = tel;
+        this.directorName = directorName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getDirectorName() {
+        return directorName;
+    }
+
+    public void setDirectorName(String directorName) {
         this.directorName = directorName;
     }
 }
