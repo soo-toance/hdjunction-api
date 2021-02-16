@@ -29,7 +29,7 @@ public class PatientServiceImpl implements PatientService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Patient> getPatientList(String name, String seq, String birthday) {
+    public List<Patient> getPatientList(int pageNo, int pageSize, String name, String seq, String birthday) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Patient> criteriaQuery = criteriaBuilder.createQuery(Patient.class);
 
@@ -50,7 +50,7 @@ public class PatientServiceImpl implements PatientService {
 
         criteriaQuery.orderBy(criteriaBuilder.desc(root.get("id")));
         criteriaQuery.select(root).where(predicates.toArray(new Predicate[]{}));
-        TypedQuery<Patient> typedQuery = entityManager.createQuery(criteriaQuery);
+        TypedQuery<Patient> typedQuery = entityManager.createQuery(criteriaQuery).setFirstResult(pageNo * pageSize).setMaxResults(pageSize);
         List<Patient> patientList = typedQuery.getResultList();
 
         return patientList;

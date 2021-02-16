@@ -28,10 +28,13 @@ public class PatientController {
 
     // 환자 목록 조회
     @GetMapping("")
-    public List<Patient> getPatientList(@RequestParam(value="name", required=false) String name
+    public List<Patient> getPatientList(
+            @RequestParam(value="pageNo", required=false, defaultValue="1") int pageNo
+            ,@RequestParam(value="pageSize", required=false, defaultValue="10") int pageSize
+            ,@RequestParam(value="name", required=false) String name
             ,@RequestParam(value="seq", required=false) String seq
             ,@RequestParam(value="birthday", required=false) String birthday) {
-        List<Patient> patientList = patientService.getPatientList(name, seq, birthday);
+        List<Patient> patientList = patientService.getPatientList(pageNo - 1, pageSize, name, seq, birthday);
         return patientList;
     }
 
