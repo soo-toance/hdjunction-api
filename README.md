@@ -100,8 +100,8 @@
 
   | Physical Name | Logical Name  | default      | required     |
   | ------------- | ------------- |------------- |------------- |
-  | pageNo        | 환자 Id        | 1            | `false`      |
-  | pageSize      | 환자 Id        | 10           | `false`      |
+  | pageNo        | 페이지 번호       | 1            | `false`      |
+  | pageSize      | 한 번에 조회하는 최대 항목 수        | 10           | `false`      |
   | seq           | 환자번호        |              | `false`      |
   | name          | 환자명          |             | `false`       |
   | birthday      | 생년월일        |              | `false`      |
