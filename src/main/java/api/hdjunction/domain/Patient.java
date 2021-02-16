@@ -13,7 +13,7 @@ public class Patient {
     @Column(length=45)
     private String name;
     // 환자등록번호
-    @Column(length=13)
+    @Column(length=13, unique=true)
     private String seq;
     // 성별코드
     @Column(length=10)
